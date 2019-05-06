@@ -1,5 +1,5 @@
 import fetch from 'dva/fetch';
-// import { notification } from 'antd';
+import { Toast } from 'antd-mobile';
 import router from 'umi/router';
 
 let currentUrl = '';
@@ -26,10 +26,8 @@ const checkStatus = response => {
     return response;
   }
   const errortext = codeMessage[response.status] || response.statusText;
-  // notification.error({
-  //   message: `请求错误 ${response.status}: ${response.url}`,
-  //   description: errortext,
-  // });
+  Toast.fail(`请求错误 ${response.status}: ${response.url}`);
+
   const error = new Error(errortext);
   error.name = response.status;
   error.response = response;
@@ -41,10 +39,7 @@ const interceptor = (responseJson = {}) => {
   if (code !== 200 && currentUrl !== '/sys/doLogin') {
     const bodyInfo = typeof body === 'object' ? JSON.stringify(body, null, 2) : '';
     console.log(bodyInfo);
-    // notification.error({
-    //   message: `错误提示`,
-    //   description: `${bodyInfo} \n ${message}`,
-    // });
+    Toast.fail(`${message}`);
   }
   return responseJson;
 };

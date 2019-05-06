@@ -1,7 +1,7 @@
 import React from 'react';
 import CFormItem from '@/components/CFormItem';
 
-const { CSelect, CInput, CDatePicker,CSelectDynamic } = CFormItem;
+const { CSelect, CInput, CDatePicker, CSelectDynamic, CUpload, CTextArea } = CFormItem;
 
 export default (item, form) => {
   const {
@@ -21,6 +21,7 @@ export default (item, form) => {
     form,
     name: key,
     initialValue,
+    isRequired,
     formitemprops: {
       label,
       ...formitemprops,
@@ -73,22 +74,22 @@ export default (item, form) => {
     //     />
     //   );
     //   break;
-    // case 'CInputPhone':
-    //   InputType = (
-    //     <CInputPhone
-    //       placeholder={`请输入${label}`}
-    //       {...defaultProps}
-    //       rules={[
-    //         ...defaultRule,
-    //         {
-    //           pattern: /^1[345678]\d{9}$/,
-    //           message: ' 格式不正确',
-    //         },
-    //         ...rules,
-    //       ]}
-    //     />
-    //   );
-    //   break;
+    case 'CInputPhone':
+      InputType = (
+        <CInput
+          placeholder={`请输入${label}`}
+          {...defaultProps}
+          rules={[
+            ...defaultRule,
+            {
+              pattern: /^1[345678]\d{9}$/,
+              message: ' 格式不正确',
+            },
+            ...rules,
+          ]}
+        />
+      );
+      break;
     case 'CSelect':
       InputType = (
         <CSelect
@@ -119,141 +120,28 @@ export default (item, form) => {
         />
       );
       break;
-    // case 'CSelectGroup':
-    //   InputType = (
-    //     <CSelectGroup
-    //       placeholder={`请选择${label}`}
-    //       {...defaultProps}
-    //       rules={[...defaultRule, ...rules]}
-    //       selectOptions={item.selectOptions || []}
-    //     />
-    //   );
-    //   break;
-    // case 'CSelectGroupDynamic':
-    //   InputType = (
-    //     <CSelectGroupDynamic
-    //       placeholder={`请选择${label}`}
-    //       {...defaultProps}
-    //       rules={[...defaultRule, ...rules]}
-    //       dictionaryKey={item.dictionaryKey}
-    //       fetchUrl={item.fetchUrl}
-    //     />
-    //   );
-    //   break;
-    // case 'CCascader':
-    //   InputType = (
-    //     <CCascader
-    //       placeholder={`请选择${label}`}
-    //       {...defaultProps}
-    //       rules={[...defaultRule, ...rules]}
-    //       options={item.options || []}
-    //     />
-    //   );
-    //   break;
-    // case 'CCascaderDynamic':
-    //   InputType = (
-    //     <CCascaderDynamic
-    //       placeholder={`请选择${label}`}
-    //       {...defaultProps}
-    //       rules={[...defaultRule, ...rules]}
-    //       dictionaryKey={item.dictionaryKey}
-    //       fetchUrl={item.fetchUrl}
-    //     />
-    //   );
-    //   break;
-    // case 'CCascaderDynamicOption':
-    //   InputType = (
-    //     <CCascaderDynamicOption
-    //       placeholder={`请选择${label}`}
-    //       {...defaultProps}
-    //       rules={[...defaultRule, ...rules]}
-    //       dictionaryKey={item.dictionaryKey}
-    //       fetchUrl={item.fetchUrl}
-    //       loadLeafUrls={item.loadLeafUrls || []}
-    //     />
-    //   );
-    //   break;
-    // case 'CSelectDynamicTree':
-    //   InputType = (
-    //     <CSelectDynamicTree
-    //       placeholder={`请选择${label}`}
-    //       {...defaultProps}
-    //       rules={[...defaultRule, ...rules]}
-    //       dictionaryKey={item.dictionaryKey}
-    //       fetchUrl={item.fetchUrl}
-    //     />
-    //   );
-    //   break;
+    case 'CUpload':
+      InputType = (
+        <CUpload
+          placeholder={`请选择${label}`}
+          {...defaultProps}
+          rules={[...defaultSelectRule, ...rules]}
+          action={item.action}
+          maxFileCounts={item.maxFileCounts || 10}
+          maxFileSize={item.maxFileSize || 5}
+        />
+      );
+      break;
+    case 'CTextArea':
+      InputType = (
+        <CTextArea
+          placeholder={`请输入${label}`}
+          {...defaultProps}
+          rules={[...defaultRule, ...rules]}
+        />
+      );
+      break;
 
-    // case 'CRangePicker':
-    //   InputType = (
-    //     <CRangePicker
-    //       // placeholder={`请选择${label}`}
-    //       {...defaultProps}
-    //       rules={[...defaultRule, ...rules]}
-    //     />
-    //   );
-    //   break;
-    // case 'CMonthPicker':
-    //   InputType = (
-    //     <CMonthPicker
-    //       placeholder={`请选择${label}`}
-    //       {...defaultProps}
-    //       rules={[...defaultRule, ...rules]}
-    //     />
-    //   );
-    //   break;
-    // case 'CTimePicker':
-    //   InputType = (
-    //     <CTimePicker
-    //       placeholder={`请选择${label}`}
-    //       {...defaultProps}
-    //       rules={[...defaultRule, ...rules]}
-    //     />
-    //   );
-    //   break;
-    // case 'CCheckboxGroup':
-    //   InputType = (
-    //     <CCheckboxGroup
-    //       placeholder={`请选择${label}`}
-    //       {...defaultProps}
-    //       rules={[...defaultRule, ...rules]}
-    //       selectOptions={item.selectOptions || []}
-    //     />
-    //   );
-    //   break;
-    // case 'CRadioGroup':
-    //   InputType = (
-    //     <CRadioGroup
-    //       placeholder={`请选择${label}`}
-    //       {...defaultProps}
-    //       rules={[...defaultRule, ...rules]}
-    //       selectOptions={item.selectOptions || []}
-    //     />
-    //   );
-    //   break;
-    // case 'CTextArea':
-    //   InputType = (
-    //     <CTextArea
-    //       placeholder={`请输入${label}`}
-    //       {...defaultProps}
-    //       rules={[...defaultRule, ...rules]}
-    //     />
-    //   );
-    //   break;
-    // case 'CUpload':
-    //   InputType = (
-    //     <CUpload
-    //       placeholder={`请选择${label}`}
-    //       {...defaultProps}
-    //       rules={[...defaultRule, ...rules]}
-    //       action={item.action}
-    //       listType={item.listType || 'picture-card'}
-    //       maxFileCounts={item.maxFileCounts || 10}
-    //       maxFileSize={item.maxFileSize || 5}
-    //     />
-    //   );
-    //   break;
     case 'CInput':
     default:
       InputType = (

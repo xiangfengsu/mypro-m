@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import omit from 'omit.js';
 import { List } from 'antd-mobile';
 import RForm from '@/components/RForm';
 import ItemMap from '@/components/CFormItem/map';
@@ -34,6 +35,7 @@ class WrapFormItem extends Component {
 
     const {
       name,
+      isRequired,
       type,
       component,
       onChange,
@@ -44,7 +46,6 @@ class WrapFormItem extends Component {
       fieldDecoratorOptions,
       ...restProps
     } = this.props;
-
     // get getFieldDecorator props
     const options = this.getFormItemOptions(this.props);
 
@@ -52,16 +53,23 @@ class WrapFormItem extends Component {
 
     const otherProps = restProps || {};
 
-    const { label } = formitemprops;
+    const { label, hasAsterisk = true } = formitemprops;
+
+    Object.assign(formitemprops, {
+      hasAsterisk: hasAsterisk ? (isRequired ? true : false) : false,
+    });
+
+    const otherFormitemProps = omit(formitemprops,['hasAsterisk']);
+
 
     if (type === 'CSelect') {
       const { selectOptions = [] } = otherProps;
       const data = formatterSelectValue(selectOptions);
       return (
-        <FormItem>
+        <FormItem {...formitemprops}>
           {getFieldDecorator(name, options)(
             <WrappedComponent {...customprops} {...otherProps} data={data}>
-              <List.Item arrow="horizontal" {...formitemprops}>
+              <List.Item arrow="horizontal" {...otherFormitemProps}>
                 {label}
               </List.Item>
             </WrappedComponent>,
@@ -72,10 +80,10 @@ class WrapFormItem extends Component {
 
     if (type === 'CDatePicker') {
       return (
-        <FormItem>
+        <FormItem {...formitemprops}>
           {getFieldDecorator(name, options)(
             <WrappedComponent {...customprops} {...otherProps}>
-              <List.Item arrow="horizontal" {...formitemprops}>
+              <List.Item arrow="horizontal" {...otherFormitemProps}>
                 {label}
               </List.Item>
             </WrappedComponent>,
@@ -96,9 +104,24 @@ class WrapFormItem extends Component {
       );
     }
 
+    if (type === 'CTextArea') {
+      return (
+        <FormItem {...formitemprops}>
+          {getFieldDecorator(name, options)(
+            <List.Item>
+              {label}
+              <WrappedComponent {...customprops} {...otherProps} />
+            </List.Item>,
+          )}
+        </FormItem>
+      );
+    }
+
     return (
-      <FormItem >
-        {getFieldDecorator(name, options)(<WrappedComponent formitemprops={formitemprops}  {...customprops} {...otherProps} />)}
+      <FormItem {...formitemprops}>
+        {getFieldDecorator(name, options)(
+          <WrappedComponent formitemprops={otherFormitemProps} {...customprops} {...otherProps} />,
+        )}
       </FormItem>
     );
   }

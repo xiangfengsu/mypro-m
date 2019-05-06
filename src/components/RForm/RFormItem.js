@@ -1,12 +1,21 @@
 import React from 'react';
+import PropsType from 'prop-types';
 import classNames from 'classnames';
 import './index.less';
 
-function intersperseSpace(list=[]){
+function intersperseSpace(list = []) {
   return list.reduce((current, item) => [...current, ' ', item], []).slice(1);
 }
 
 export default class RFormItem extends React.Component {
+  static propTypes = {
+    hasAsterisk: PropsType.bool,
+  };
+
+  static defaultProps = {
+    hasAsterisk: true,
+  };
+
   getControls(children, recursively) {
     let controls = [];
     const childrenArray = React.Children.toArray(children);
@@ -51,7 +60,7 @@ export default class RFormItem extends React.Component {
       if (errors) {
         return intersperseSpace(
           errors.map((e, index) => {
-            let node= null;
+            let node = null;
 
             if (React.isValidElement(e)) {
               node = e;
@@ -101,8 +110,10 @@ export default class RFormItem extends React.Component {
 
   renderFormItem() {
     // const validateStatus = this.getValidateStatus();
+    const { hasAsterisk } = this.props;
     const rootCls = classNames('r-field');
     const containerCls = classNames('r-field__container', {
+      'r-field__container__hasAsterisk': hasAsterisk,
     });
     return (
       <div className={rootCls}>

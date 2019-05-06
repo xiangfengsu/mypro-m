@@ -13,6 +13,19 @@ const detailFormItems = [
     colSpan: 0,
     props: {
       disabled: false,
+
+      // labelNumber:2
+    },
+  },
+  {
+    formType: 'CInputPhone',
+    isRequired: true,
+    key: 'CInputPhone',
+    label: 'Phone',
+    colSpan: 0,
+    props: {
+      disabled: false,
+      maxLength: 11,
       // labelNumber:2
     },
   },
@@ -30,18 +43,22 @@ const detailFormItems = [
       {
         key: 'select1',
         value: 'select1',
-        children:[{
-          key: 'select1_1',
-          value: 'select1_1',
-        }]
+        children: [
+          {
+            key: 'select1_1',
+            value: 'select1_1',
+          },
+        ],
       },
       {
         key: 'select2',
         value: 'select2',
-        children:[{
-          key: 'select2_1',
-          value: 'select2_1',
-        }]
+        children: [
+          {
+            key: 'select2_1',
+            value: 'select2_1',
+          },
+        ],
       },
     ],
   },
@@ -53,7 +70,7 @@ const detailFormItems = [
     props: {
       disabled: false,
       cols: 2,
-      cascade:false
+      cascade: false,
     },
     formitemprops: {},
     selectOptions: [
@@ -85,7 +102,7 @@ const detailFormItems = [
     selectOptions: [
       {
         key: '2013',
-        value: '2013'
+        value: '2013',
       },
     ],
   },
@@ -94,14 +111,12 @@ const detailFormItems = [
     isRequired: true,
     key: 'selectDynamic',
     label: 'CSelectDynamic',
-    initialValue:[2],
+    initialValue: [2],
     props: {
       disabled: false,
       cols: 1,
-
     },
-    formitemprops: {
-    },
+    formitemprops: {},
     dictionaryKey: 'CSelectDynamicDic',
     fetchUrl: '/api/selectLists2',
   },
@@ -115,6 +130,49 @@ const detailFormItems = [
       mode: 'date',
     },
     formitemprops: {},
+  },
+  {
+    formType: 'CUpload',
+    isRequired: true,
+    key: 'upload1',
+    label: '上传图片',
+    colSpan: 24,
+    initialValue: [
+      {
+        uid: -1,
+        name: 'xxx.png',
+        status: 'done', // 不能为空
+        url: 'http://img.souche.com/files/default/21460c50f16c4d8f0d4bf91873b99d84.jpg',
+        thumbUrl: 'http://img.souche.com/files/default/21460c50f16c4d8f0d4bf91873b99d84.jpg',
+      },
+    ],
+
+    props: {
+      disabled: false,
+      placeholder: 'CUpload',
+      multiple: true,
+      accept: 'image/*',
+    },
+    formitemprops: {
+      hasFeedback: false,
+    },
+
+    action: '/sys/file/upload_test',
+    listType: 'picture-card',
+
+    maxFileCounts: 3,
+    maxFileSize: 1,
+  },
+  {
+    formType: 'CTextArea',
+    isRequired: true,
+    key: 'CTextarea',
+    label: 'CTextarea',
+    colSpan: 0,
+    props: {
+      disabled: false,
+      // labelNumber:2
+    },
   },
 ];
 
@@ -170,6 +228,7 @@ class BasicInputExample extends React.Component {
               <InputItem clear>年龄</InputItem>,
             )}
           </RForm.Item> */}
+
           <Button type="primary" onClick={this.handleClick}>
             提交
           </Button>

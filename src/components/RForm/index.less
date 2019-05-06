@@ -5,6 +5,20 @@
   margin-bottom: 12px;
   &__container {
     background-color: #fff;
+    position: relative;
+    &::after{
+      position: absolute;
+      content: '*';
+      color:red;
+      top: 12px;
+      left: 5px;
+      display: none;
+    }
+    &__hasAsterisk{
+      &::after{
+        display: block;
+      }
+    }
   }
   &--error {
     color: red;
